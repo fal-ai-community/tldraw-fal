@@ -51,17 +51,18 @@ export function LiveImage() {
   const onDrawingChange = useCallback(
     debounce(async () => {
       // TODO get actual drawing bounds
-      const bounds = new Box2d(120, 180, 512, 512);
+      // const bounds = new Box2d(120, 180, 512, 512);
 
       const shapes = editor.getCurrentPageShapes().filter((shape) => {
         if (shape.type === "live-image") {
           return false;
         }
-        const pageBounds = editor.getShapeMaskedPageBounds(shape);
-        if (!pageBounds) {
-          return false;
-        }
-        return bounds.includes(pageBounds);
+        return true;
+        // const pageBounds = editor.getShapeMaskedPageBounds(shape);
+        // if (!pageBounds) {
+        //   return false;
+        // }
+        // return bounds.includes(pageBounds);
       });
 
       // Check if should submit request
@@ -71,7 +72,7 @@ export function LiveImage() {
       }
       imageDigest.current = shapesDigest;
 
-      const svg = await editor.getSvg(shapes, { bounds, background: true });
+      const svg = await editor.getSvg(shapes, { background: true });
       if (!svg) {
         return;
       }

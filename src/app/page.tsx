@@ -28,13 +28,18 @@ export default function Home() {
       type: "live-image",
       x: 120,
       y: 180,
+      isLocked: true,
     });
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="fixed inset-0">
-        <Tldraw onMount={onEditorMount} shapeUtils={shapeUtils} />
+        <Tldraw
+          persistenceKey="tldraw-fal"
+          onMount={onEditorMount}
+          shapeUtils={shapeUtils}
+        />
       </div>
     </main>
   );
