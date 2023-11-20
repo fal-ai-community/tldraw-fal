@@ -14,7 +14,7 @@ fal.config({
 const shapeUtils = [LiveImageShapeUtil];
 
 export default function Home() {
-  const onEditorMount = useCallback((editor: Editor) => {
+  const onEditorMount = (editor: Editor) => {
     // If there isn't a live image shape, create one
     const liveImage = editor.getCurrentPageShapes().find((shape) => {
       return shape.type === "live-image";
@@ -29,7 +29,7 @@ export default function Home() {
       x: 120,
       y: 180,
     });
-  }, []);
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">

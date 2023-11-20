@@ -156,12 +156,7 @@ type LiveImageShape = TLBaseShape<"live-image", { w: number; h: number }>;
 export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
   static override type = "live-image" as const;
 
-  override canReceiveNewChildrenOfType = (
-    shape: LiveImageShape,
-    type: TLShape["type"]
-  ) => {
-    return true;
-  };
+  override canResize = () => false;
 
   getDefaultProps(): LiveImageShape["props"] {
     return {
