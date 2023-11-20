@@ -14,6 +14,15 @@ const shapeUtils = [LiveImageShapeUtil];
 
 export default function Home() {
   const onEditorMount = (editor: Editor) => {
+    // If there isn't a live image shape, create one
+    const liveImage = editor.getCurrentPageShapes().find((shape) => {
+      return shape.type === "live-image";
+    });
+
+    if (liveImage) {
+      return;
+    }
+
     editor.createShape({
       type: "live-image",
       x: 120,
