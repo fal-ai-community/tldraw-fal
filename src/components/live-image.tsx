@@ -5,6 +5,7 @@ import {
   ShapeUtil,
   TLBaseShape,
   TLEventMapHandler,
+  TLShape,
   useEditor,
 } from "@tldraw/tldraw";
 
@@ -96,7 +97,7 @@ export function LiveImage() {
         setImage(result.images[0].url);
       }
     }, 16),
-    [],
+    []
   );
 
   useEffect(() => {
@@ -154,6 +155,13 @@ type LiveImageShape = TLBaseShape<"live-image", { w: number; h: number }>;
 
 export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
   static override type = "live-image" as const;
+
+  override canReceiveNewChildrenOfType = (
+    shape: LiveImageShape,
+    type: TLShape["type"]
+  ) => {
+    return true;
+  };
 
   getDefaultProps(): LiveImageShape["props"] {
     return {
