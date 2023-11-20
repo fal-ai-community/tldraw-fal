@@ -10,6 +10,8 @@ fal.config({
   }),
 });
 
+const shapeUtils = [LiveImageShapeUtil];
+
 export default function Home() {
   const onEditorMount = (editor: Editor) => {
     editor.createShape({
@@ -22,7 +24,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="fixed inset-0">
-        <Tldraw onMount={onEditorMount} shapeUtils={[LiveImageShapeUtil]} />
+        <Tldraw onMount={onEditorMount} shapeUtils={shapeUtils} />
       </div>
     </main>
   );
