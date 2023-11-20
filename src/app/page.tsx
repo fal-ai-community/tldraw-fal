@@ -1,9 +1,8 @@
 "use client";
 
+import { LiveImageShapeUtil } from "@/components/live-image";
 import * as fal from "@fal-ai/serverless-client";
-import { Tldraw } from "@tldraw/tldraw";
-
-import "@tldraw/tldraw/tldraw.css";
+import { Editor, Tldraw } from "@tldraw/tldraw";
 
 fal.config({
   requestMiddleware: fal.withProxy({
@@ -12,10 +11,18 @@ fal.config({
 });
 
 export default function Home() {
+  const onEditorMount = (editor: Editor) => {
+    editor.createShape({
+      type: "live-image",
+      x: 120,
+      y: 180,
+    });
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="fixed inset-0">
-        <Tldraw />
+        <Tldraw onMount={onEditorMount} shapeUtils={[LiveImageShapeUtil]} />
       </div>
     </main>
   );
