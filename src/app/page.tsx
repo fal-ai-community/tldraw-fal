@@ -3,6 +3,7 @@
 import { LiveImageShapeUtil } from "@/components/live-image";
 import * as fal from "@fal-ai/serverless-client";
 import { Editor, Tldraw } from "@tldraw/tldraw";
+import { useCallback } from "react";
 
 fal.config({
   requestMiddleware: fal.withProxy({
@@ -10,8 +11,19 @@ fal.config({
   }),
 });
 
+const shapeUtils = [LiveImageShapeUtil];
+
 export default function Home() {
   const onEditorMount = (editor: Editor) => {
+    // If there isn't a live image shape, create one
+    const liveImage = editor.getCurrentPageShapes().find((shape) => {
+      return shape.type === "live-image";
+    });
+
+    if (liveImage) {
+      return;
+    }
+
     editor.createShape({
       type: "live-image",
       x: 120,
@@ -22,7 +34,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       <div className="fixed inset-0">
-        <Tldraw onMount={onEditorMount} shapeUtils={[LiveImageShapeUtil]} />
+        <Tldraw onMount={onEditorMount} shapeUtils={shapeUtils} />
       </div>
     </main>
   );
