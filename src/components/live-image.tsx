@@ -37,7 +37,7 @@ type Output = {
 };
 
 // TODO make this an input on the canvas
-const PROMPT = "a sunset at a tropical beach with palm trees";
+const PROMPT = "a city skyline";
 
 export function LiveImage() {
   const editor = useEditor();
