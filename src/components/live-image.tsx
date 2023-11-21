@@ -93,6 +93,8 @@ export function LiveImage() {
           sync_mode: true,
           seed: 42, // TODO make this configurable in the UI
         },
+        // Disable auto-upload so we can submit the data uri of the image as is
+        autoUpload: false,
       });
       if (result && result.images.length > 0) {
         setImage(result.images[0].url);

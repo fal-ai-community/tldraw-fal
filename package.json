@@ -10,7 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@fal-ai/serverless-client": "^0.5.3",
+    "@fal-ai/serverless-client": "^0.5.4",
     "@fal-ai/serverless-proxy": "^0.5.0",
     "@tldraw/tldraw": "^2.0.0-canary.ba4091c59418",
     "next": "14.0.3",
