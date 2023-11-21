@@ -2,8 +2,9 @@
 
 import { LiveImageShapeUtil } from "@/components/live-image";
 import * as fal from "@fal-ai/serverless-client";
-import { Editor, Tldraw } from "@tldraw/tldraw";
+import { Editor, FrameShapeTool, Tldraw, useEditor } from "@tldraw/tldraw";
 import { useCallback } from "react";
+import { LiveImageTool, MakeLiveButton } from "../components/LiveImageTool";
 
 fal.config({
   requestMiddleware: fal.withProxy({
@@ -12,6 +13,7 @@ fal.config({
 });
 
 const shapeUtils = [LiveImageShapeUtil];
+const tools = [LiveImageTool];
 
 export default function Home() {
   const onEditorMount = (editor: Editor) => {
@@ -28,7 +30,11 @@ export default function Home() {
       type: "live-image",
       x: 120,
       y: 180,
-      isLocked: true,
+      props: {
+        w: 512,
+        h: 512,
+        name: "a city skyline",
+      },
     });
   };
 
@@ -39,6 +45,8 @@ export default function Home() {
           persistenceKey="tldraw-fal"
           onMount={onEditorMount}
           shapeUtils={shapeUtils}
+          tools={tools}
+          shareZone={<MakeLiveButton />}
         />
       </div>
     </main>
