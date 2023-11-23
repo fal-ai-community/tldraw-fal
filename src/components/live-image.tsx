@@ -18,9 +18,7 @@ import result from "postcss/lib/result";
 
 // See https://www.fal.ai/models/latent-consistency-sd
 
-const LatentConsistency = "110602490-lcm-sd15-i2i";
-
-const DEBOUNCE_TIME = 0.1; // Adjust as needed
+const DEBOUNCE_TIME = 0.0; // Adjust as needed
 const URL = "wss://110602490-lcm-sd15-i2i.gateway.alpha.fal.ai/ws";
 
 type Input = {
@@ -71,21 +69,21 @@ export class LiveImageShapeUtil extends FrameShapeUtil {
     const connect = useCallback(() => {
       webSocketRef.current = new WebSocket(URL);
       webSocketRef.current.onopen = () => {
-        console.log("WebSocket Open");
+        // console.log("WebSocket Open");
       };
 
       webSocketRef.current.onclose = () => {
-        console.log("WebSocket Close");
+        // console.log("WebSocket Close");
       };
 
       webSocketRef.current.onerror = (error) => {
-        console.error("WebSocket Error:", error);
+        // console.error("WebSocket Error:", error);
       };
 
       webSocketRef.current.onmessage = (message) => {
         try {
           const data = JSON.parse(message.data);
-          console.log("WebSocket Message:", data);
+          // console.log("WebSocket Message:", data);
           if (data.images && data.images.length > 0) {
             setImage(data.images[0].url);
           }
