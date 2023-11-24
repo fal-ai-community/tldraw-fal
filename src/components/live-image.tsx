@@ -1,9 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
+  canonicalizeRotation,
   FrameShapeUtil,
+  getDefaultColorTheme,
   getSvgAsImage,
   HTMLContainer,
+  SelectionEdge,
   TLEventMapHandler,
   TLFrameShape,
   TLShape,
@@ -51,6 +54,23 @@ export class LiveImageShapeUtil extends FrameShapeUtil {
       h: 512,
       name: "a city skyline",
     };
+  }
+
+  override canUnmount = () => false;
+
+  override toSvg(shape: TLFrameShape) {
+    const theme = getDefaultColorTheme({
+      isDarkMode: this.editor.user.getIsDarkMode(),
+    });
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("width", shape.props.w.toString());
+    rect.setAttribute("height", shape.props.h.toString());
+    rect.setAttribute("fill", theme.solid);
+    g.appendChild(rect);
+
+    return g;
   }
 
   override component(shape: TLFrameShape) {
@@ -139,9 +159,9 @@ export class LiveImageShapeUtil extends FrameShapeUtil {
 
         const iteration = startedIteration.current++;
 
-        const shapes = Array.from(editor.getShapeAndDescendantIds([shape.id]))
-          .filter((id) => id !== shape.id)
-          .map((id) => editor.getShape(id)) as TLShape[];
+        const shapes = Array.from(
+          editor.getShapeAndDescendantIds([shape.id])
+        ).map((id) => editor.getShape(id)) as TLShape[];
 
         // Check if should submit request
         const shapesDigest = JSON.stringify(shapes);
@@ -150,7 +170,11 @@ export class LiveImageShapeUtil extends FrameShapeUtil {
         }
         imageDigest.current = shapesDigest;
 
-        const svg = await editor.getSvg(shapes, { background: true });
+        const svg = await editor.getSvg([shape], {
+          background: true,
+          padding: 0,
+          darkMode: editor.user.getIsDarkMode(),
+        });
         if (iteration <= finishedIteration.current) return;
 
         if (!svg) {
