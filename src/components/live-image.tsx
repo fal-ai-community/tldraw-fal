@@ -157,9 +157,9 @@ export class LiveImageShapeUtil extends FrameShapeUtil {
 
         const iteration = startedIteration.current++;
 
-        const shapes = Array.from(editor.getShapeAndDescendantIds([shape.id]))
-          .filter((id) => id !== shape.id)
-          .map((id) => editor.getShape(id)) as TLShape[];
+        const shapes = Array.from(
+          editor.getShapeAndDescendantIds([shape.id])
+        ).map((id) => editor.getShape(id)) as TLShape[];
 
         // Check if should submit request
         const shapesDigest = JSON.stringify(shapes);
