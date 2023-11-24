@@ -56,6 +56,8 @@ export class LiveImageShapeUtil extends FrameShapeUtil {
     };
   }
 
+  override canUnmount = () => false;
+
   override toSvg(shape: TLFrameShape) {
     const theme = getDefaultColorTheme({
       isDarkMode: this.editor.user.getIsDarkMode(),
