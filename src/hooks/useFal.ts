@@ -71,10 +71,11 @@ export function useFal(
 			clientOnly: false,
 			throttleInterval: 1000,
 			onError: (error) => {
+				console.log(`Received error!`)
 				console.error(error)
 			},
 			onResult: (result) => {
-				console.log(result)
+				console.log(`Received result!`)
 				if (result.images && result.images[0]) {
 					updateImage(result.images[0].url)
 				}
@@ -99,6 +100,7 @@ export function useFal(
 				darkMode: editor.user.getIsDarkMode(),
 			})
 			if (!svg) {
+				console.error('No SVG')
 				updateImage('')
 				return
 			}
@@ -112,6 +114,7 @@ export function useFal(
 				scale: 1,
 			})
 			if (!image) {
+				console.error('No image')
 				updateImage('')
 				return
 			}
@@ -126,18 +129,22 @@ export function useFal(
 			// We might be stale
 			if (iteration <= finishedIteration.current) return
 
-			console.log('ok here we go')
-			sendCurrentData(
-				JSON.stringify({
-					prompt,
-					image_url: imageDataUri,
-					sync_mode: true,
-					strength: 0.7,
-					seed: 11252023, // TODO make this configurable in the UI
-					enable_safety_checks: false,
-				})
-			)
-			finishedIteration.current = iteration
+			try {
+				console.log('Sending data...')
+				sendCurrentData(
+					JSON.stringify({
+						prompt,
+						image_url: imageDataUri,
+						sync_mode: true,
+						strength: 0.7,
+						seed: 11252023, // TODO make this configurable in the UI
+						enable_safety_checks: false,
+					})
+				)
+				finishedIteration.current = iteration
+			} catch (e) {
+				console.error(e)
+			}
 		}
 
 		const onDrawingChange = debounceTime
@@ -149,7 +156,7 @@ export function useFal(
 		editor.on('update-drawings' as any, onDrawingChange)
 
 		return () => {
-			close()
+			// close()
 			editor.off('update-drawings' as any, onDrawingChange)
 		}
 	}, [editor, shapeId, throttleTime, debounceTime, appId])

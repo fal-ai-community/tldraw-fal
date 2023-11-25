@@ -158,7 +158,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 
 		useFal(shape.id, {
 			debounceTime: 0,
-			appId: '110602490-lcm-sd15-i2i',
+			appId: '110602490-lcm-plexed-sd15-i2i',
 		})
 
 		const bounds = this.editor.getShapeGeometry(shape).bounds
