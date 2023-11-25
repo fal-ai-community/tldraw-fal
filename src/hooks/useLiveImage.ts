@@ -28,6 +28,7 @@ export function useLiveImage(
 	const finishedIteration = useRef<number>(0)
 
 	const prevHash = useRef<string | null>(null)
+	const prevPrompt = useRef<string>('')
 
 	useEffect(() => {
 		function updateImage(url: string | null) {
@@ -88,11 +89,11 @@ export function useLiveImage(
 				.filter((id) => id !== shapeId)
 				.map((id) => editor.getShape(id)) as TLShape[]
 
-			const hash = getHashForObject(shapes)
-			if (hash === prevHash.current) return
-			prevHash.current = hash
-
 			const shape = editor.getShape<LiveImageShape>(shapeId)!
+			const hash = getHashForObject(shapes)
+			if (hash === prevHash.current && shape.props.name === prevPrompt.current) return
+			prevHash.current = hash
+			prevPrompt.current = shape.props.name
 
 			const svg = await editor.getSvg([shape], {
 				background: true,
