@@ -2,20 +2,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
 	AssetRecordType,
-	canonicalizeRotation,
-	FrameShapeUtil,
 	Geometry2d,
 	getDefaultColorTheme,
-	getHashForObject,
-	getSvgAsImage,
-	HTMLContainer,
-	IdOf,
 	Rectangle2d,
 	resizeBox,
-	SelectionEdge,
 	ShapeUtil,
 	SVGContainer,
-	TLAsset,
 	TLBaseShape,
 	TLGroupShape,
 	TLOnResizeEndHandler,
@@ -27,15 +19,8 @@ import {
 	useIsDarkMode,
 } from '@tldraw/tldraw'
 
-import { blobToDataUri } from '@/utils/blob'
-import { debounce } from '@/utils/debounce'
-import * as fal from '@fal-ai/serverless-client'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import result from 'postcss/lib/result'
+import { useLiveImage } from '@/hooks/useLiveImage'
 import { FrameHeading } from './FrameHeading'
-import image from 'next/image'
-import { connect } from 'http2'
-import { useFal } from '@/hooks/useFal'
 
 // See https://www.fal.ai/models/latent-consistency-sd
 
@@ -94,10 +79,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 
 	canUnmount = () => false
 
-	override canReceiveNewChildrenOfType = (
-		shape: TLShape,
-		_type: TLShape['type']
-	) => {
+	override canReceiveNewChildrenOfType = (shape: TLShape, _type: TLShape['type']) => {
 		return !shape.isLocked
 	}
 
@@ -105,10 +87,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 		return true
 	}
 
-	override canDropShapes = (
-		shape: LiveImageShape,
-		_shapes: TLShape[]
-	): boolean => {
+	override canDropShapes = (shape: LiveImageShape, _shapes: TLShape[]): boolean => {
 		return !shape.isLocked
 	}
 
@@ -126,16 +105,9 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 		return { shouldHint: false }
 	}
 
-	override onDragShapesOut = (
-		_shape: LiveImageShape,
-		shapes: TLShape[]
-	): void => {
+	override onDragShapesOut = (_shape: LiveImageShape, shapes: TLShape[]): void => {
 		const parent = this.editor.getShape(_shape.parentId)
-		const isInGroup =
-			parent && this.editor.isShapeOfType<TLGroupShape>(parent, 'group')
-
-		// If frame is in a group, keep the shape
-		// moved out in that group
+		const isInGroup = parent && this.editor.isShapeOfType<TLGroupShape>(parent, 'group')
 
 		if (isInGroup) {
 			this.editor.reparentShapes(shapes, parent.id)
@@ -158,10 +130,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 		}
 
 		if (shapesToReparent.length > 0) {
-			this.editor.reparentShapes(
-				shapesToReparent,
-				this.editor.getCurrentPageId()
-			)
+			this.editor.reparentShapes(shapesToReparent, this.editor.getCurrentPageId())
 		}
 	}
 
@@ -184,9 +153,9 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 	override component(shape: LiveImageShape) {
 		const editor = useEditor()
 
-		useFal(shape.id, {
+		useLiveImage(shape.id, {
 			debounceTime: 0,
-			url: 'wss://110602490-lcm-sd15-i2i.gateway.alpha.fal.ai/ws',
+			appId: '110602490-lcm-plexed-sd15-i2i',
 		})
 
 		const bounds = this.editor.getShapeGeometry(shape).bounds
