@@ -1,16 +1,15 @@
 'use client'
 
 import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
-import * as fal from '@fal-ai/serverless-client'
 import { Editor, Tldraw, useEditor } from '@tldraw/tldraw'
 import { useEffect } from 'react'
 import { LiveImageTool, MakeLiveButton } from '../components/LiveImageTool'
 
-fal.config({
-	requestMiddleware: fal.withProxy({
-		targetUrl: '/api/fal/proxy',
-	}),
-})
+// fal.config({
+// 	requestMiddleware: fal.withProxy({
+// 		targetUrl: '/api/fal/proxy',
+// 	}),
+// })
 
 const shapeUtils = [LiveImageShapeUtil]
 const tools = [LiveImageTool]
