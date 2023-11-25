@@ -94,68 +94,6 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 
 	canUnmount = () => false
 
-	indicator(shape: LiveImageShape) {
-		const bounds = this.editor.getShapeGeometry(shape).bounds
-
-		return (
-			<rect
-				width={toDomPrecision(bounds.width)}
-				height={toDomPrecision(bounds.height)}
-				className={`tl-frame-indicator`}
-			/>
-		)
-	}
-
-	override component(shape: LiveImageShape) {
-		const editor = useEditor()
-
-		useFal(shape.id, {
-			debounceTime: 0,
-			url: 'wss://110602490-lcm-sd15-i2i.gateway.alpha.fal.ai/ws',
-		})
-
-		const bounds = this.editor.getShapeGeometry(shape).bounds
-		const assetId = AssetRecordType.createId(shape.id.split(':')[1])
-		const asset = editor.getAsset(assetId)
-
-		// eslint-disable-next-line react-hooks/rules-of-hooks
-		const theme = getDefaultColorTheme({ isDarkMode: useIsDarkMode() })
-
-		return (
-			<>
-				<SVGContainer>
-					<rect
-						className={'tl-frame__body'}
-						width={bounds.width}
-						height={bounds.height}
-						fill={theme.solid}
-						stroke={theme.text}
-					/>
-				</SVGContainer>
-				<FrameHeading
-					id={shape.id}
-					name={shape.props.name}
-					width={bounds.width}
-					height={bounds.height}
-				/>
-				{asset && (
-					<img
-						src={asset.props.src!}
-						alt={shape.props.name}
-						width={shape.props.w}
-						height={shape.props.h}
-						style={{
-							position: 'relative',
-							left: shape.props.w,
-							width: shape.props.w,
-							height: shape.props.h,
-						}}
-					/>
-				)}
-			</>
-		)
-	}
-
 	override canReceiveNewChildrenOfType = (
 		shape: TLShape,
 		_type: TLShape['type']
@@ -229,5 +167,67 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 
 	override onResize: TLOnResizeHandler<any> = (shape, info) => {
 		return resizeBox(shape, info)
+	}
+
+	indicator(shape: LiveImageShape) {
+		const bounds = this.editor.getShapeGeometry(shape).bounds
+
+		return (
+			<rect
+				width={toDomPrecision(bounds.width)}
+				height={toDomPrecision(bounds.height)}
+				className={`tl-frame-indicator`}
+			/>
+		)
+	}
+
+	override component(shape: LiveImageShape) {
+		const editor = useEditor()
+
+		useFal(shape.id, {
+			debounceTime: 0,
+			url: 'wss://110602490-lcm-sd15-i2i.gateway.alpha.fal.ai/ws',
+		})
+
+		const bounds = this.editor.getShapeGeometry(shape).bounds
+		const assetId = AssetRecordType.createId(shape.id.split(':')[1])
+		const asset = editor.getAsset(assetId)
+
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const theme = getDefaultColorTheme({ isDarkMode: useIsDarkMode() })
+
+		return (
+			<>
+				<SVGContainer>
+					<rect
+						className={'tl-frame__body'}
+						width={bounds.width}
+						height={bounds.height}
+						fill={theme.solid}
+						stroke={theme.text}
+					/>
+				</SVGContainer>
+				<FrameHeading
+					id={shape.id}
+					name={shape.props.name}
+					width={bounds.width}
+					height={bounds.height}
+				/>
+				{asset && (
+					<img
+						src={asset.props.src!}
+						alt={shape.props.name}
+						width={shape.props.w}
+						height={shape.props.h}
+						style={{
+							position: 'relative',
+							left: shape.props.w,
+							width: shape.props.w,
+							height: shape.props.h,
+						}}
+					/>
+				)}
+			</>
+		)
 	}
 }
