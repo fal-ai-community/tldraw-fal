@@ -19,7 +19,7 @@ import {
 	useIsDarkMode,
 } from '@tldraw/tldraw'
 
-import { useFal } from '@/hooks/useFal'
+import { useLiveImage } from '@/hooks/useLiveImage'
 import { FrameHeading } from './FrameHeading'
 
 // See https://www.fal.ai/models/latent-consistency-sd
@@ -109,9 +109,6 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 		const parent = this.editor.getShape(_shape.parentId)
 		const isInGroup = parent && this.editor.isShapeOfType<TLGroupShape>(parent, 'group')
 
-		// If frame is in a group, keep the shape
-		// moved out in that group
-
 		if (isInGroup) {
 			this.editor.reparentShapes(shapes, parent.id)
 		} else {
@@ -156,7 +153,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 	override component(shape: LiveImageShape) {
 		const editor = useEditor()
 
-		useFal(shape.id, {
+		useLiveImage(shape.id, {
 			debounceTime: 0,
 			appId: '110602490-lcm-plexed-sd15-i2i',
 		})

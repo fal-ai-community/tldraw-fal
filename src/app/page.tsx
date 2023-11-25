@@ -1,21 +1,23 @@
 'use client'
 
 import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
+import * as fal from '@fal-ai/serverless-client'
 import { Editor, Tldraw, useEditor } from '@tldraw/tldraw'
 import { useEffect } from 'react'
 import { LiveImageTool, MakeLiveButton } from '../components/LiveImageTool'
 
-// fal.config({
-// 	requestMiddleware: fal.withProxy({
-// 		targetUrl: '/api/fal/proxy',
-// 	}),
-// })
+fal.config({
+	requestMiddleware: fal.withProxy({
+		targetUrl: '/api/fal/proxy',
+	}),
+})
 
 const shapeUtils = [LiveImageShapeUtil]
 const tools = [LiveImageTool]
 
 export default function Home() {
 	const onEditorMount = (editor: Editor) => {
+		// We need the editor to think that the live image shape is a frame
 		// @ts-expect-error: patch
 		editor.isShapeOfType = function (arg, type) {
 			const shape = typeof arg === 'string' ? this.getShape(arg)! : arg
@@ -26,24 +28,18 @@ export default function Home() {
 		}
 
 		// If there isn't a live image shape, create one
-		const liveImage = editor.getCurrentPageShapes().find((shape) => {
-			return shape.type === 'live-image'
-		})
-
-		if (liveImage) {
-			return
+		if (!editor.getCurrentPageShapes().some((shape) => shape.type === 'live-image')) {
+			editor.createShape<LiveImageShape>({
+				type: 'live-image',
+				x: 120,
+				y: 180,
+				props: {
+					w: 512,
+					h: 512,
+					name: 'a city skyline',
+				},
+			})
 		}
-
-		editor.createShape<LiveImageShape>({
-			type: 'live-image',
-			x: 120,
-			y: 180,
-			props: {
-				w: 512,
-				h: 512,
-				name: 'a city skyline',
-			},
-		})
 	}
 
 	return (
