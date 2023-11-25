@@ -127,7 +127,7 @@ export function useLiveImage(
 			// We might be stale
 			if (iteration <= finishedIteration.current) return
 
-			const random = rng()
+			const random = rng(shapeId)
 
 			try {
 				sendCurrentData({
