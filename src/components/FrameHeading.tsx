@@ -8,9 +8,9 @@ import {
 	useIsEditing,
 	useValue,
 } from '@tldraw/editor'
+import { preventDefault, stopEventPropagation } from '@tldraw/tldraw'
 import { useCallback, useEffect, useRef } from 'react'
 import { FrameLabelInput } from './FrameLabelInput'
-import { preventDefault, stopEventPropagation } from '@tldraw/tldraw'
 
 export function FrameHeading({
 	id,
@@ -40,8 +40,6 @@ export function FrameHeading({
 			stopEventPropagation(e)
 
 			const event = getPointerInfo(e)
-
-			console.log('hello')
 
 			// If we're editing the frame label, we shouldn't hijack the pointer event
 			if (editor.getEditingShapeId() === id) return
@@ -77,9 +75,9 @@ export function FrameHeading({
 	// rotate right 45 deg
 	const offsetRotation = pageRotation + Math.PI / 4
 	const scaledRotation = (offsetRotation * (2 / Math.PI) + 4) % 4
-	const labelSide: SelectionEdge = (
-		['top', 'left', 'bottom', 'right'] as const
-	)[Math.floor(scaledRotation)]
+	const labelSide: SelectionEdge = (['top', 'left', 'bottom', 'right'] as const)[
+		Math.floor(scaledRotation)
+	]
 
 	let labelTranslate: string
 	switch (labelSide) {
@@ -87,9 +85,7 @@ export function FrameHeading({
 			labelTranslate = ``
 			break
 		case 'right':
-			labelTranslate = `translate(${toDomPrecision(
-				width
-			)}px, 0px) rotate(90deg)`
+			labelTranslate = `translate(${toDomPrecision(width)}px, 0px) rotate(90deg)`
 			break
 		case 'bottom':
 			labelTranslate = `translate(${toDomPrecision(width)}px, ${toDomPrecision(
@@ -97,9 +93,7 @@ export function FrameHeading({
 			)}px) rotate(180deg)`
 			break
 		case 'left':
-			labelTranslate = `translate(0px, ${toDomPrecision(
-				height
-			)}px) rotate(270deg)`
+			labelTranslate = `translate(0px, ${toDomPrecision(height)}px) rotate(270deg)`
 			break
 	}
 
@@ -109,9 +103,7 @@ export function FrameHeading({
 			style={{
 				overflow: isEditing ? 'visible' : 'hidden',
 				maxWidth: `calc(var(--tl-zoom) * ${
-					labelSide === 'top' || labelSide === 'bottom'
-						? Math.ceil(width)
-						: Math.ceil(height)
+					labelSide === 'top' || labelSide === 'bottom' ? Math.ceil(width) : Math.ceil(height)
 				}px + var(--space-5))`,
 				bottom: '100%',
 				transform: `${labelTranslate} scale(var(--tl-scale)) translateX(calc(-1 * var(--space-3))`,
@@ -119,12 +111,7 @@ export function FrameHeading({
 			onPointerDown={handlePointerDown}
 		>
 			<div className="tl-frame-heading-hit-area">
-				<FrameLabelInput
-					ref={rInput}
-					id={id}
-					name={name}
-					isEditing={isEditing}
-				/>
+				<FrameLabelInput ref={rInput} id={id} name={name} isEditing={isEditing} />
 			</div>
 		</div>
 	)

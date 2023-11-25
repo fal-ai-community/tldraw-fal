@@ -2,6 +2,7 @@
   "name": "tldraw-fal",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +11,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@fal-ai/serverless-client": "^0.5.4",
+    "@fal-ai/serverless-client": "^0.6.0-alpha.4",
     "@fal-ai/serverless-proxy": "^0.5.0",
     "@tldraw/tldraw": "^2.0.0-canary.ba4091c59418",
     "next": "14.0.3",
@@ -26,6 +27,7 @@
     "eslint-config-next": "14.0.3",
     "postcss": "^8",
     "prettier": "^3.1.0",
+    "prettier-plugin-organize-imports": "^3.2.4",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }

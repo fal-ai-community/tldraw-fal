@@ -1,18 +1,9 @@
 'use client'
 
-import {
-	LiveImageShape,
-	LiveImageShapeUtil,
-} from '@/components/LiveImageShapeUtil'
+import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
 import * as fal from '@fal-ai/serverless-client'
-import {
-	AssetRecordType,
-	Editor,
-	FrameShapeTool,
-	Tldraw,
-	useEditor,
-} from '@tldraw/tldraw'
-import { useCallback, useEffect } from 'react'
+import { Editor, Tldraw, useEditor } from '@tldraw/tldraw'
+import { useEffect } from 'react'
 import { LiveImageTool, MakeLiveButton } from '../components/LiveImageTool'
 
 fal.config({
