@@ -1,9 +1,4 @@
-import {
-	TLFrameShape,
-	TLShapeId,
-	stopEventPropagation,
-	useEditor,
-} from '@tldraw/editor'
+import { TLFrameShape, TLShapeId, stopEventPropagation, useEditor } from '@tldraw/editor'
 import { forwardRef, useCallback } from 'react'
 
 export const FrameLabelInput = forwardRef<
@@ -72,9 +67,7 @@ export const FrameLabelInput = forwardRef<
 	)
 
 	return (
-		<div
-			className={`tl-frame-label ${isEditing ? 'tl-frame-label__editing' : ''}`}
-		>
+		<div className={`tl-frame-label ${isEditing ? 'tl-frame-label__editing' : ''}`}>
 			<input
 				className="tl-frame-name-input"
 				ref={ref}
@@ -84,8 +77,9 @@ export const FrameLabelInput = forwardRef<
 				onKeyDown={handleKeyDown}
 				onBlur={handleBlur}
 				onChange={handleChange}
+				onPointerDown={stopEventPropagation}
 			/>
-			{defaultEmptyAs(name, 'Frame') + String.fromCharCode(8203)}
+			{defaultEmptyAs(name, 'Double click prompt to edit') + String.fromCharCode(8203)}
 		</div>
 	)
 })
