@@ -134,7 +134,7 @@ export function useLiveImage(
 					prompt,
 					image_url: imageDataUri,
 					sync_mode: true,
-					strength: 0.7,
+					strength: 0.65,
 					seed: Math.abs(random() * 10000), // TODO make this configurable in the UI
 					enable_safety_checks: false,
 				})
