@@ -150,7 +150,7 @@ const LiveImageAsset = track(function LiveImageAsset({ shape }: { shape: LiveIma
 	const asset = editor.getAsset(assetId)
 	return (
 		asset &&
-		asset.props.src(
+		asset.props.src && (
 			<img
 				src={asset.props.src!}
 				alt={shape.props.name}
