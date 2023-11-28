@@ -77,7 +77,6 @@ export function useLiveImage(
 				console.error(error)
 			},
 			onResult: (result) => {
-				console.log(result)
 				if (result.images && result.images[0]) {
 					updateImage(result.images[0].url)
 				}
