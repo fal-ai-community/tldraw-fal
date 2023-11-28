@@ -58,8 +58,9 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 	static type = 'live-image' as any
 
 	override canBind = () => true
-
+	override canUnmount = () => false
 	override canEdit = () => true
+	override isAspectRatioLocked = () => true
 
 	getDefaultProps() {
 		return {
@@ -76,8 +77,6 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 			isFilled: false,
 		})
 	}
-
-	canUnmount = () => false
 
 	override canReceiveNewChildrenOfType = (shape: TLShape, _type: TLShape['type']) => {
 		return !shape.isLocked
@@ -155,7 +154,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 
 		useLiveImage(shape.id, {
 			debounceTime: 0,
-			appId: '110602490-lcm-plexed-sd15-i2i',
+			appId: '110602490-lcm-sd15-i2i',
 		})
 
 		const bounds = this.editor.getShapeGeometry(shape).bounds
