@@ -3,6 +3,7 @@ import { blobToDataUri } from '@/utils/blob'
 import * as fal from '@fal-ai/serverless-client'
 import {
 	AssetRecordType,
+	Editor,
 	TLShape,
 	TLShapeId,
 	debounce,
@@ -85,20 +86,19 @@ export function useLiveImage(
 		async function updateDrawing() {
 			const iteration = startedIteration.current++
 
-			const shapes = Array.from(editor.getShapeAndDescendantIds([shapeId]))
-				.filter((id) => id !== shapeId)
-				.map((id) => editor.getShape(id)) as TLShape[]
+			const shapes = getShapesTouching(shapeId, editor)
 
 			const shape = editor.getShape<LiveImageShape>(shapeId)!
-			const hash = getHashForObject(shapes)
+			const hash = getHashForObject([...shapes])
 			if (hash === prevHash.current && shape.props.name === prevPrompt.current) return
 			prevHash.current = hash
 			prevPrompt.current = shape.props.name
 
-			const svg = await editor.getSvg([shape], {
+			const svg = await editor.getSvg([...shapes], {
 				background: true,
 				padding: 0,
 				darkMode: editor.user.getIsDarkMode(),
+				bounds: editor.getShapePageBounds(shapeId)!,
 			})
 			// We might be stale
 			if (iteration <= finishedIteration.current) return
@@ -113,6 +113,7 @@ export function useLiveImage(
 				quality: 1,
 				scale: 512 / shape.props.w,
 			})
+
 			// We might be stale
 			if (iteration <= finishedIteration.current) return
 			if (!image) {
@@ -124,6 +125,7 @@ export function useLiveImage(
 				? shape.props.name + ' hd award-winning impressive'
 				: 'A random image that is safe for work and not surprising—something boring like a city or shoe watercolor'
 			const imageDataUri = await blobToDataUri(image)
+			// downloadDataURLAsFile(imageDataUri, 'test.png')
 			// We might be stale
 			if (iteration <= finishedIteration.current) return
 
@@ -161,4 +163,26 @@ export function useLiveImage(
 			editor.off('update-drawings' as any, onDrawingChange)
 		}
 	}, [editor, shapeId, throttleTime, debounceTime, appId])
+}
+
+function getShapesTouching(shapeId: TLShapeId, editor: Editor) {
+	const shapeIdsOnPage = editor.getCurrentPageShapeIds()
+	const shapesTouching: TLShape[] = []
+	const targetBounds = editor.getShapePageBounds(shapeId)
+	if (!targetBounds) return shapesTouching
+	for (const id of [...shapeIdsOnPage]) {
+		if (id === shapeId) continue
+		const bounds = editor.getShapePageBounds(id)!
+		if (bounds.collides(targetBounds)) {
+			shapesTouching.push(editor.getShape(id)!)
+		}
+	}
+	return shapesTouching
+}
+
+function downloadDataURLAsFile(dataUrl: string, filename: string) {
+	const link = document.createElement('a')
+	link.href = dataUrl
+	link.download = filename
+	link.click()
 }
