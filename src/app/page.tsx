@@ -1,6 +1,7 @@
 'use client'
 
 import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
+import { LockupLink } from '@/components/LockupLink'
 import * as fal from '@fal-ai/serverless-client'
 import {
 	DefaultSizeStyle,
@@ -91,6 +92,7 @@ export default function Home() {
 					overrides={overrides}
 				>
 					<SneakySideEffects />
+					<LockupLink />
 				</Tldraw>
 			</div>
 		</main>

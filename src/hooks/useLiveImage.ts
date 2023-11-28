@@ -111,7 +111,7 @@ export function useLiveImage(
 			const image = await getSvgAsImage(svg, editor.environment.isSafari, {
 				type: 'png',
 				quality: 1,
-				scale: 1,
+				scale: 512 / shape.props.w,
 			})
 			// We might be stale
 			if (iteration <= finishedIteration.current) return
