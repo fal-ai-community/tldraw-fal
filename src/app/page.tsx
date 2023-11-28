@@ -72,7 +72,7 @@ export default function Home() {
 				props: {
 					w: 512,
 					h: 512,
-					name: 'a city skyline',
+					name: '',
 				},
 			})
 		}
