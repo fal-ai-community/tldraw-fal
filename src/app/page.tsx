@@ -20,7 +20,7 @@ fal.config({
 	}),
 })
 
-export const overrides: TLUiOverrides = {
+const overrides: TLUiOverrides = {
 	tools(editor, tools) {
 		tools.liveImage = {
 			id: 'live-image',
