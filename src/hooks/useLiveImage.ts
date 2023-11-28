@@ -23,7 +23,7 @@ export function useLiveImage(
 		appId: string
 	}
 ) {
-	const { appId, throttleTime = 30, debounceTime = 0 } = opts
+	const { appId, throttleTime = 100, debounceTime = 0 } = opts
 	const editor = useEditor()
 	const startedIteration = useRef<number>(0)
 	const finishedIteration = useRef<number>(0)
@@ -137,7 +137,7 @@ export function useLiveImage(
 					prompt,
 					image_url: imageDataUri,
 					sync_mode: true,
-					strength: 0.5,
+					strength: 0.65,
 					seed: Math.abs(random() * 10000), // TODO make this configurable in the UI
 					enable_safety_checks: false,
 				})
