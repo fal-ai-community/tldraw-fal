@@ -16,7 +16,7 @@ import { FalLogo } from "./fal-logo";
 
 // See https://www.fal.ai/models/latent-consistency-sd
 
-const LatentConsistency = "110602490-lcm-sd15-i2i";
+const LatentConsistency = "110602490-lora";
 
 type Input = {
   prompt: string;
@@ -89,6 +89,7 @@ export function LiveImage() {
           image_url: imageDataUri,
           prompt: PROMPT,
           sync_mode: true,
+          model_name: "stabilityai/stable-diffusion-xl-base-1.0",
           seed: 42, // TODO make this configurable in the UI
         },
         // Disable auto-upload so we can submit the data uri of the image as is
