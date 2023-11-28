@@ -153,10 +153,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 	override component(shape: LiveImageShape) {
 		const editor = useEditor()
 
-		useLiveImage(shape.id, {
-			debounceTime: 0,
-			appId: '110602490-lcm-sd15-i2i',
-		})
+		useLiveImage(shape.id)
 
 		const bounds = this.editor.getShapeGeometry(shape).bounds
 		const assetId = AssetRecordType.createId(shape.id.split(':')[1])
@@ -181,7 +178,7 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 					width={bounds.width}
 					height={bounds.height}
 				/>
-				{!shape.props.overlayResult && asset && (
+				{!shape.props.overlayResult && asset && asset.props.src && (
 					<img
 						src={asset.props.src!}
 						alt={shape.props.name}

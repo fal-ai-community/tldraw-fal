@@ -3,6 +3,7 @@
 
 import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
 import { LockupLink } from '@/components/LockupLink'
+import { LiveImageProvider } from '@/hooks/useLiveImage'
 import * as fal from '@fal-ai/serverless-client'
 import {
 	AssetRecordType,
@@ -85,22 +86,24 @@ export default function Home() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between">
-			<div className="fixed inset-0">
-				<Tldraw
-					persistenceKey="tldraw-fal"
-					onMount={onEditorMount}
-					shapeUtils={shapeUtils}
-					tools={tools}
-					shareZone={<MakeLiveButton />}
-					overrides={overrides}
-				>
-					<SneakySideEffects />
-					<LockupLink />
-					<LiveImageAssets />
-				</Tldraw>
-			</div>
-		</main>
+		<LiveImageProvider appId="110602490-lcm-sd15-i2i">
+			<main className="flex min-h-screen flex-col items-center justify-between">
+				<div className="fixed inset-0">
+					<Tldraw
+						persistenceKey="tldraw-fal"
+						onMount={onEditorMount}
+						shapeUtils={shapeUtils}
+						tools={tools}
+						shareZone={<MakeLiveButton />}
+						overrides={overrides}
+					>
+						<SneakySideEffects />
+						<LockupLink />
+						<LiveImageAssets />
+					</Tldraw>
+				</div>
+			</main>
+		</LiveImageProvider>
 	)
 }
 
@@ -146,7 +149,8 @@ const LiveImageAsset = track(function LiveImageAsset({ shape }: { shape: LiveIma
 	const assetId = AssetRecordType.createId(shape.id.split(':')[1])
 	const asset = editor.getAsset(assetId)
 	return (
-		asset && (
+		asset &&
+		asset.props.src(
 			<img
 				src={asset.props.src!}
 				alt={shape.props.name}
