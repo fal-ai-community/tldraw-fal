@@ -10,7 +10,11 @@ export function LockupLink() {
 	// if (isFocusMode) return null
 
 	return (
-		<span className={`lockup__link ${breakpoint < 7 ? 'lockup__link__mobile' : ''}`}>
+		<span
+			className={`lockup__link ${breakpoint < 7 ? 'lockup__link__mobile' : ''} ${
+				breakpoint < 6 ? 'lockup__link__mobile__raise' : ''
+			}`}
+		>
 			<By />
 			{/* <img alt="by" className="lockup__by" src="/by-tldraw.svg" /> */}
 			<a href="https://twitter.com/tldraw">

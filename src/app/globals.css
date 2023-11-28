@@ -29,6 +29,10 @@ body {
 	padding-right: 2px;
 }
 
+.lockup__link__mobile .lockup__link img.lockup__by {
+	padding-right: 0px;
+}
+
 .lockup__link {
 	color: var(--color-text);
 	position: absolute;
@@ -51,12 +55,10 @@ body {
 	/* width: 100%; */
 }
 
-.fal-logo {
-	/* margin-left: -4px; */
-}
-
 .lockup__link__mobile {
-	bottom: 60px;
+	height: 25px;
+	gap: 4px;
+	/* right: 0px; */
 }
 
 .tlui-help-menu {
@@ -68,8 +70,20 @@ body {
 	width: 120px;
 }
 
+.lockup__link__mobile .lockup {
+	width: 60px;
+}
+
 .tlui-debug-panel {
 	display: none !important;
+}
+
+.lockup__link__mobile .lockup__collab {
+	font-size: 16px;
+}
+
+.lockup__link__mobile__raise {
+	bottom: 60px;
 }
 
 .lockup__collab {
