@@ -208,10 +208,8 @@ export class LiveImageShapeUtil extends ShapeUtil<LiveImageShape> {
 					}}
 					onPointerDown={(e) => {
 						e.stopPropagation()
-						console.log('pointerdowm', e)
 					}}
 					onClick={(e) => {
-						console.log('click', e)
 						editor.updateShape<LiveImageShape>({
 							id: shape.id,
 							type: 'live-image',
