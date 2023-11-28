@@ -1,5 +1,4 @@
 import { LiveImageShape } from '@/components/LiveImageShapeUtil'
-import { Queue } from '@/utils/Queue'
 import { blobToDataUri } from '@/utils/blob'
 import * as fal from '@fal-ai/serverless-client'
 import {
@@ -26,8 +25,6 @@ type LiveImageRequest = {
 }
 type LiveImageContextType = null | ((req: LiveImageRequest) => Promise<LiveImageResult>)
 const LiveImageContext = createContext<LiveImageContextType>(null)
-
-const svgQueue = new Queue()
 
 export function LiveImageProvider({
 	children,
@@ -185,6 +182,8 @@ export function useLiveImage(shapeId: TLShapeId) {
 					console.log({ imageDataUri, prevSvg })
 				}
 				prevSvg = imageDataUri
+
+				// downloadDataURLAsFile(imageDataUri, 'image.png')
 
 				const random = rng(shapeId)
 
