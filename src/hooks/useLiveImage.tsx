@@ -60,7 +60,6 @@ export function LiveImageProvider({
 				setCount((count) => count + 1)
 			},
 			onResult: (result) => {
-				console.log(result)
 				if (result.images && result.images[0]) {
 					const id = result.request_id
 					const request = requestsById.get(id)
@@ -90,7 +89,6 @@ export function LiveImageProvider({
 						},
 						timer,
 					})
-					console.log('send', id, req)
 					send({ ...req, request_id: id })
 				})
 			},
@@ -113,33 +111,31 @@ export function LiveImageProvider({
 	)
 }
 
-export function useLiveImage(shapeId: TLShapeId) {
+export function useLiveImage(
+	shapeId: TLShapeId,
+	{ throttleTime = 64 }: { throttleTime?: number } = {}
+) {
 	const editor = useEditor()
 	const fetchImage = useContext(LiveImageContext)
 	if (!fetchImage) throw new Error('Missing LiveImageProvider')
 
 	useEffect(() => {
-		console.log('do effect')
 		let prevHash = ''
 		let prevPrompt = ''
-		let prevSvg = ''
-		let state: 'idle' | 'requested-latest' | 'requested-stale' = 'idle'
+
+		let startedIteration = 0
+		let finishedIteration = 0
 
 		async function updateDrawing() {
-			if (state === 'requested-stale') return
-			if (state === 'requested-latest') {
-				state = 'requested-stale'
-				return
-			}
-
 			const shapes = getShapesTouching(shapeId, editor)
 			const frame = editor.getShape<LiveImageShape>(shapeId)!
 
 			const hash = getHashForObject([...shapes])
-			if (hash === prevHash && frame.props.name === prevPrompt) return
+			const frameName = frame.props.name
+			if (hash === prevHash && frameName === prevPrompt) return
 
-			if (state !== 'idle') throw new Error('State should be idle')
-			state = 'requested-latest'
+			startedIteration += 1
+			const iteration = startedIteration
 
 			prevHash = hash
 			prevPrompt = frame.props.name
@@ -151,6 +147,8 @@ export function useLiveImage(shapeId: TLShapeId) {
 					darkMode: editor.user.getIsDarkMode(),
 					bounds: editor.getShapePageBounds(shapeId)!,
 				})
+				// cancel if stale:
+				if (iteration <= finishedIteration) return
 
 				if (!svg) {
 					console.error('No SVG')
@@ -163,6 +161,8 @@ export function useLiveImage(shapeId: TLShapeId) {
 					quality: 1,
 					scale: 512 / frame.props.w,
 				})
+				// cancel if stale:
+				if (iteration <= finishedIteration) return
 
 				if (!image) {
 					console.error('No image')
@@ -170,18 +170,14 @@ export function useLiveImage(shapeId: TLShapeId) {
 					return
 				}
 
-				const prompt = frame.props.name
-					? frame.props.name + ' hd award-winning impressive'
+				const prompt = frameName
+					? frameName + ' hd award-winning impressive'
 					: 'A random image that is safe for work and not surprising—something boring like a city or shoe watercolor'
+
 				const imageDataUri = await blobToDataUri(image)
 
-				if (imageDataUri === prevSvg) {
-					console.log('Same image')
-					return
-				} else {
-					console.log({ imageDataUri, prevSvg })
-				}
-				prevSvg = imageDataUri
+				// cancel if stale:
+				if (iteration <= finishedIteration) return
 
 				// downloadDataURLAsFile(imageDataUri, 'image.png')
 
@@ -195,35 +191,38 @@ export function useLiveImage(shapeId: TLShapeId) {
 					seed: Math.abs(random() * 10000), // TODO make this configurable in the UI
 					enable_safety_checks: false,
 				})
+				// cancel if stale:
+				if (iteration <= finishedIteration) return
+
+				finishedIteration = iteration
 				updateImage(editor, frame.id, result.url)
 			} catch (e) {
-				console.error(e)
-			} finally {
-				if (state === 'requested-latest') {
-					state = 'idle'
-					return
+				const isTimeout = e instanceof Error && e.message === 'Timeout'
+				if (!isTimeout) {
+					console.error(e)
 				}
-				if (state === 'requested-stale') {
-					state = 'idle'
-					updateDrawing()
+
+				// retry if this was the most recent request:
+				if (iteration === startedIteration) {
+					requestUpdate()
 				}
 			}
 		}
 
-		let frame: number | null = null
+		let timer: ReturnType<typeof setTimeout> | null = null
 		function requestUpdate() {
-			if (frame) return
-			frame = requestAnimationFrame(() => {
-				frame = null
+			if (timer !== null) return
+			timer = setTimeout(() => {
+				timer = null
 				updateDrawing()
-			})
+			}, throttleTime)
 		}
 
 		editor.on('update-drawings' as any, requestUpdate)
 		return () => {
 			editor.off('update-drawings' as any, requestUpdate)
 		}
-	}, [editor, fetchImage, shapeId])
+	}, [editor, fetchImage, shapeId, throttleTime])
 }
 
 function updateImage(editor: Editor, shapeId: TLShapeId, url: string | null) {
