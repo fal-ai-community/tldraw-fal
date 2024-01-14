@@ -20,8 +20,7 @@ export default function Home() {
 						Visit <a href="https://tldraw.com">tldraw.com</a> for a free multiplayer whiteboard.
 					</li>
 					<li>
-						Visit <a href="https://together.tldraw.com">together.tldraw.com</a> for the same
-						collaborative scrolly drawing app (but without the AI stuff).
+						Let us know on the <a href="https://discord.gg/dJr8yJGkT5">tldraw Discord</a> if you really really liked this.
 					</li>
 				</ol>
 				<p>Thank you!</p>
