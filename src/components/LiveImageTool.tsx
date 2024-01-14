@@ -16,10 +16,9 @@ export function MakeLiveButton() {
   return (
     <button
       onClick={makeLive}
-      className="p-2"
-      style={{ cursor: "pointer", zIndex: 100000, pointerEvents: "all" }}
+      className="draw-fast-button"
     >
-      <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <div className="draw-fast-button__inner">
         Draw Fast
       </div>
     </button>

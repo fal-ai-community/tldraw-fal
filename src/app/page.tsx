@@ -2,6 +2,7 @@
 'use client'
 
 import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
+import { LiveImageTool,MakeLiveButton } from '@/components/LiveImageTool'
 import { LockupLink } from '@/components/LockupLink'
 import { LiveImageProvider } from '@/hooks/useLiveImage'
 import * as fal from '@fal-ai/serverless-client'
@@ -17,7 +18,6 @@ import {
 } from '@tldraw/tldraw'
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { LiveImageTool, MakeLiveButton } from '../components/LiveImageTool'
 
 fal.config({
 	requestMiddleware: fal.withProxy({
@@ -87,8 +87,8 @@ export default function Home() {
 
 	return (
 		<LiveImageProvider appId="110602490-lcm-sd15-i2i">
-			<main className="flex min-h-screen flex-col items-center justify-between">
-				<div className="fixed inset-0">
+			<main className="tldraw-wrapper">
+				<div className="tldraw-wrapper__inner">
 					<Tldraw
 						persistenceKey="tldraw-fal"
 						onMount={onEditorMount}
