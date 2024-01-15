@@ -15,7 +15,6 @@ body {
 	height: 100%;
 }
 
-
 .lockup__link img.lockup__by {
 	height: 40px;
 	padding-right: 2px;
@@ -166,5 +165,5 @@ body {
 }
 
 a {
-	color: black
+	color: black;
 }

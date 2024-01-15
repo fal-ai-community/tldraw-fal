@@ -88,9 +88,7 @@ export function FrameHeading({
 			labelTranslate = `translate(${toDomPrecision(width)}px, 0px) rotate(90deg)`
 			break
 		case 'bottom':
-			labelTranslate = `translate(${toDomPrecision(width)}px, ${toDomPrecision(
-				height
-			)}px) rotate(180deg)`
+			labelTranslate = `translate(${toDomPrecision(width)}px, ${toDomPrecision(height)}px) rotate(180deg)`
 			break
 		case 'left':
 			labelTranslate = `translate(0px, ${toDomPrecision(height)}px) rotate(270deg)`

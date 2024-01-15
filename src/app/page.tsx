@@ -2,7 +2,7 @@
 'use client'
 
 import { LiveImageShape, LiveImageShapeUtil } from '@/components/LiveImageShapeUtil'
-import { LiveImageTool,MakeLiveButton } from '@/components/LiveImageTool'
+import { LiveImageTool, MakeLiveButton } from '@/components/LiveImageTool'
 import { LockupLink } from '@/components/LockupLink'
 import { LiveImageProvider } from '@/hooks/useLiveImage'
 import * as fal from '@fal-ai/serverless-client'
