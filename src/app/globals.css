@@ -1,28 +1,20 @@
 @import url('@tldraw/tldraw/tldraw.css');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-	--foreground-rgb: 0, 0, 0;
-	--background-start-rgb: 214, 219, 220;
-	--background-end-rgb: 255, 255, 255;
+html,
+* {
+	box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--foreground-rgb: 255, 255, 255;
-		--background-start-rgb: 0, 0, 0;
-		--background-end-rgb: 0, 0, 0;
-	}
-}
-
+html,
 body {
-	color: rgb(var(--foreground-rgb));
-	background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-		rgb(var(--background-start-rgb));
+	overscroll-behavior: none;
+	touch-action: none;
+	overflow: hidden;
+	/* mobile viewport bug fix */
+	min-height: -webkit-fill-available;
+	height: 100%;
 }
+
 
 .lockup__link img.lockup__by {
 	height: 40px;
@@ -90,4 +82,89 @@ body {
 	font-size: 20px;
 	font-weight: 200;
 	/* padding: 0px 4px; */
+}
+
+/* ---------------------- Sorry --------------------- */
+
+.sorry {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	color: black;
+	height: 100dvh;
+	max-width: 100%;
+	font:
+		16px/1.5 system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		'Helvetica Neue',
+		Arial,
+		sans-serif;
+	max-width: 100%;
+	overflow-y: auto;
+	padding: 16px;
+}
+
+.sorry__lockup {
+	text-align: center;
+	width: 128px;
+}
+
+.sorry img {
+	max-width: 100%;
+}
+
+.sorry ol {
+	padding-left: 32px;
+}
+
+.sorry li {
+	margin-bottom: 8px;
+}
+
+.sorry a {
+	font-weight: 600;
+	color: dodgerblue;
+}
+
+/* Tailwind stuff */
+
+/* flex min-h-screen flex-col items-center justify-between */
+.tldraw-wrapper {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* fixed inset-0 */
+.tldraw-wrapper__inner {
+	position: fixed;
+	inset: 0px;
+}
+
+/* bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded */
+.draw-fast-button__inner {
+	background-color: var(--color-selected);
+	color: #fff;
+	font-weight: 600;
+	padding: 8px 16px;
+	border-radius: 4px;
+}
+
+/* p-2 */
+.draw-fast-button {
+	all: unset;
+	padding: 8px;
+	cursor: pointer;
+	z-index: 100000;
+	pointer-events: all;
+}
+
+a {
+	color: black
 }
