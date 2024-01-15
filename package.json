@@ -1,5 +1,5 @@
 {
-	"name": "tldraw-draw-fast",
+	"name": "@fal-ai/tldraw-draw-fast",
 	"version": "0.1.0",
 	"private": true,
 	"license": "MIT",
@@ -11,7 +11,7 @@
 		"format": "prettier --write ."
 	},
 	"dependencies": {
-		"@fal-ai/serverless-client": "^0.6.0",
+		"@fal-ai/serverless-client": "^0.7.4",
 		"@fal-ai/serverless-proxy": "^0.6.0",
 		"@tldraw/tldraw": "canary",
 		"@vercel/analytics": "^1.1.1",

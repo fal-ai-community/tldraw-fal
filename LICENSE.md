@@ -1,4 +1,4 @@
-Copyright (c) 2024 tldraw 
+Copyright (c) 2024 tldraw
 
 PLEASE NOTE: The @tldraw/tldraw library is licensed under the tldraw license,
 a non-commercial license. Using this library in a commercial product is
