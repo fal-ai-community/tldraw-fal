@@ -6,7 +6,11 @@ Here’s how:
 
 ## 1. Clone the repo
 
-Clone the [Draw Fast repo](https://github.com/tldraw/draw-fast) from github.
+Clone this repo!
+
+```
+git clone https://github.com/tldraw/draw-fast
+```
 
 ## 2. Get a Fal key
 
