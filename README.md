@@ -1,8 +1,11 @@
-# draw fast
+<img width="597" alt="image" src="https://github.com/tldraw/draw-fast/assets/15892272/31ee1ea4-7180-4146-a931-d262d0dee592"># draw fast
 
 **Draw Fast** is a demo that shows how you can use the [**tldraw library**](https://tldraw.dev) with realtime image generation. The demo has now finished and we’ve taken it down. But you can still run it on your own machine and try it out.
 
 Here are two ways of doing that.
+
+- [Run it locally](#run-it-locally)
+- Run it in [CodeSandbox](#run-it-in-codesandbox)
 
 # Run it locally
 
