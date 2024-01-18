@@ -8,19 +8,17 @@ Here’s how:
 
 Clone the [Draw Fast repo](https://github.com/tldraw/draw-fast) from github.
 
-https://github.com/tldraw/draw-fast
-
 ## 2. Get a Fal key
 
 Go to [fal.ai](https://fal.ai)
 
 Login with github, and get a key from the [keys page](https://www.fal.ai/dashboard/keys). (You can give it any name you want).
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/caa9ce5f-2803-48f0-a148-84fb1782a8cb/e44ea754-1155-4693-ba2c-31fb8fb5914c/Untitled.png)
+![1](https://github.com/tldraw/draw-fast/assets/15892272/992a8a90-9d72-4a28-aebe-921c3f82e4e9)
 
 Copy your key.
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/caa9ce5f-2803-48f0-a148-84fb1782a8cb/12814028-825f-4e8a-9ac8-9b622cbab879/Untitled.png)
+![2](https://github.com/tldraw/draw-fast/assets/15892272/740118d6-a9e2-4320-b2f7-abb63f416c9f)
 
 ## 3. Setup environment variables
 
