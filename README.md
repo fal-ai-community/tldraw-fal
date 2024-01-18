@@ -5,7 +5,7 @@
 Here are two ways of doing that.
 
 - [Run it locally](#run-it-locally)
-- Run it in [CodeSandbox](#run-it-in-codesandbox)
+- [Run it in CodeSandbox](#run-it-in-codesandbox)
 
 # Run it locally
 
