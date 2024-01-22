@@ -9,6 +9,10 @@ Here are two ways of doing that.
 
 # Run it locally
 
+Here's a video tutorial. Or read below for a written guide.
+
+https://github.com/tldraw/draw-fast/assets/15892272/dd175168-f4db-455a-9c70-2736cd4403d0
+
 ## 1. Clone the repo
 
 Clone this repo!
